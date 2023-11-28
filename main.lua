@@ -1,16 +1,73 @@
-require "boardgame.board"
-require "boardgame.player"
+local love = require("love")
+local graphics = love.graphics
+local math = require("math")
+local keyboard = love.keyboard
+local mouse = love.mouse
+
+local Background = require("boardgame.background")
+local Dice = require("boardgame.dice")
+local Field = require("boardgame.field")
+local Mecha = require("boardgame.mecha")
 
 function love.load()
-    myBoard = Board:new()
-    player1 = Player:new("Player 1")
-    player2 = Player:new("Player 2")
+    width = 1368
+    height = 720
+
+    love.window.setMode(width, height, {
+        resizable = false
+    })
+
+    love.window.setTitle('MDW')
+
+    love.graphics.setFont(love.graphics.newFont("fonts/Pixeled.ttf", 16))
+
+    white = {255, 255, 255}
+
+    fps = 60
+    speed = 60
+    border = 0
+
+    background = Background
+    blocks = {}
+
+    mecha1 = Mecha:new('sprite_5.png', 2, 85, 189)
+    mecha2 = Mecha:new('sprite_10.png', 3, 85, 252)
+    mecha3 = Mecha:new('sprite_8.png', 4, 85, 315)
+    mecha4 = Mecha:new('sprite_12.png', 5, 85, 378)
+    mecha5 = Mecha:new('sprite_10.png', 6, 85, 441)
+
+    dice = Dice('dice.png', 650, 590)
+
+    field_block = love.graphics.newImage('assets/block.png')
+    field_block:setFilter('nearest', 'nearest')
+
+    for i = 1, 95 do
+        table.insert(blocks, Field:new(field_block, 85 + ((i - 1) % 19) * 63, 190 + math.floor((i - 1) / 19) * 63))
+    end
 end
 
 function love.update(dt)
-    myBoard:update(dt)
+    if keyboard.isDown('space') then
+        dice:roll()
+    end
+
+    dice:draw()
 end
 
 function love.draw()
-    myBoard:draw()
+    background:draw()
+
+    for _, block in ipairs(blocks) do
+        block:draw()
+    end
+
+    mecha1:draw()
+    mecha2:draw()
+    mecha3:draw()
+    mecha4:draw()
+    mecha5:draw()
+end
+
+function love.quit()
+
 end
