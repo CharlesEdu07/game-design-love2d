@@ -47,25 +47,25 @@ function love.load()
 end
 
 function love.update(dt)
-    if keyboard.isDown('space') then
-        dice:roll()
-    end
+    -- if keyboard.isDown('space') then
+    --     dice:roll()
+    -- end
 
-    dice:draw()
+    -- -- dice:draw()
 end
 
 function love.draw()
     background:draw()
 
-    for _, block in ipairs(blocks) do
-        block:draw()
-    end
+    -- for _, block in ipairs(blocks) do
+    --     block:draw()
+    -- end
 
-    mecha1:draw()
-    mecha2:draw()
-    mecha3:draw()
-    mecha4:draw()
-    mecha5:draw()
+    -- mecha1:draw()
+    -- mecha2:draw()
+    -- mecha3:draw()
+    -- mecha4:draw()
+    -- mecha5:draw()
 end
 
 function love.quit()

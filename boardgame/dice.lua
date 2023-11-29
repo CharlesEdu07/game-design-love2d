@@ -54,8 +54,4 @@ function love.update(dt)
 
 end
 
-function love.draw()
-    dice:draw()
-end
-
 return Dice

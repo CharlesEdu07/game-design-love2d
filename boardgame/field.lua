@@ -25,8 +25,4 @@ function love.update(dt)
 
 end
 
-function love.draw()
-    field:draw()
-end
-
 return Field
