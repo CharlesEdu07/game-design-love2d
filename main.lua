@@ -5,9 +5,9 @@ local keyboard = love.keyboard
 local mouse = love.mouse
 
 local Background = require("boardgame.background")
+local Mecha = require("boardgame.mecha")
 local Dice = require("boardgame.dice")
 local Field = require("boardgame.field")
-local Mecha = require("boardgame.mecha")
 
 function love.load()
     width = 1368
@@ -27,7 +27,7 @@ function love.load()
     speed = 60
     border = 0
 
-    background = Background
+    background = Background:new()
     blocks = {}
 
     mecha1 = Mecha:new('sprite_5.png', 2, 85, 189)
@@ -36,7 +36,7 @@ function love.load()
     mecha4 = Mecha:new('sprite_12.png', 5, 85, 378)
     mecha5 = Mecha:new('sprite_10.png', 6, 85, 441)
 
-    dice = Dice('dice.png', 650, 590)
+    dice = Dice:new(650, 590)
 
     field_block = love.graphics.newImage('assets/block.png')
     field_block:setFilter('nearest', 'nearest')

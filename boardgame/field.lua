@@ -1,5 +1,4 @@
-Field = {}
-Field.__index = Field
+local Field = {}
 
 function Field:new(x, y)
     local field = setmetatable({}, Field)
@@ -29,3 +28,5 @@ end
 function love.draw()
     field:draw()
 end
+
+return Field

@@ -1,4 +1,4 @@
-Mecha = {}
+local Mecha = {}
 
 function Mecha:new(sprite_name, lv, x, y)
     local mecha = {setmetatable({}, Mecha)}
@@ -46,3 +46,5 @@ end
 function Mecha:getLv()
     return self.lv
 end
+
+return Mecha

@@ -1,23 +1,20 @@
-Dice = {}
-Dice.__index = Dice
+local Dice = {}
 
 function Dice:new(x, y)
     local dice = setmetatable({}, Dice)
+
     local temp_image = love.graphics.newImage('assets/dice.png')
+
     dice.image = love.graphics.newImage('assets/dice.png')
-    dice.image:setFilter('nearest', 'nearest') -- optional: set image filter mode
-    dice.image = love.graphics.newImage('assets/dice.png')
-    dice.image = love.graphics.newImage('assets/dice.png')
-    dice.image = love.graphics.newImage('assets/dice.png')
-    dice.image = love.graphics.newImage('assets/dice.png')
+    dice.image:setFilter('nearest', 'nearest')
+
     dice.rect = {
         x = x,
         y = y,
         width = temp_image:getWidth(),
         height = temp_image:getHeight()
     }
-    dice.x = x
-    dice.y = y
+
     dice.clicked = false
     dice.action = false
 
@@ -49,8 +46,6 @@ function Dice:roll()
     return self.random_number
 end
 
-local dice = Dice:new(200, 200)
-
 function love.load()
 
 end
@@ -62,3 +57,5 @@ end
 function love.draw()
     dice:draw()
 end
+
+return Dice
