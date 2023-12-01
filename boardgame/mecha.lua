@@ -1,7 +1,9 @@
-local Mecha = {}
+Mecha = {}
 
 function Mecha:new(sprite_name, lv, x, y)
-    local mecha = {setmetatable({}, Mecha)}
+    local mecha = {}
+    setmetatable(mecha, self)
+    self.index = self
     mecha.sprite_name = sprite_name
     mecha.width = 60
     mecha.height = 60

@@ -1,8 +1,9 @@
-local Dice = {}
+Dice = {}
 
 function Dice:new(x, y)
-    local dice = setmetatable({}, Dice)
-
+    local dice = {}
+    setmetatable(dice, self)
+    self.__index = self
     local temp_image = love.graphics.newImage('assets/dice.png')
 
     dice.image = love.graphics.newImage('assets/dice.png')

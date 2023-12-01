@@ -36,36 +36,35 @@ function love.load()
     mecha4 = Mecha:new('sprite_12.png', 5, 85, 378)
     mecha5 = Mecha:new('sprite_10.png', 6, 85, 441)
 
-    dice = Dice:new(650, 590)
-
-    field_block = love.graphics.newImage('assets/block.png')
-    field_block:setFilter('nearest', 'nearest')
+    dice = Dice:new(200, 200)
 
     for i = 1, 95 do
-        table.insert(blocks, Field:new(field_block, 85 + ((i - 1) % 19) * 63, 190 + math.floor((i - 1) / 19) * 63))
+        table.insert(blocks, Field:new(85 + ((i - 1) % 19) * 63, 190 + math.floor((i - 1) / 19) * 63))
     end
 end
 
 function love.update(dt)
-    -- if keyboard.isDown('space') then
-    --     dice:roll()
-    -- end
+    if keyboard.isDown('space') then
+        dice:roll()
+    end
 
-    -- -- dice:draw()
+    dice:draw()
 end
 
 function love.draw()
     background:draw()
 
-    -- for _, block in ipairs(blocks) do
-    --     block:draw()
-    -- end
+    for _, block in ipairs(blocks) do
+        block:draw()
+    end
 
     -- mecha1:draw()
     -- mecha2:draw()
     -- mecha3:draw()
     -- mecha4:draw()
     -- mecha5:draw()
+
+    dice:draw()
 end
 
 function love.quit()
