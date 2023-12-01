@@ -39,7 +39,9 @@ function Dice:draw()
         self.clicked = false
     end
 
-    love.graphics.draw(self.image, self.rect.x, self.rect.y)
+    local scale_factor = 0.13
+
+    love.graphics.draw(self.image, self.rect.x, self.rect.y, 0, scale_factor, scale_factor)
 end
 
 function Dice:roll()

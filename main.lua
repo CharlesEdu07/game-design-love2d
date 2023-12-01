@@ -36,7 +36,7 @@ function love.load()
     mecha4 = Mecha:new('sprite_12.png', 5, 85, 378)
     mecha5 = Mecha:new('sprite_10.png', 6, 85, 441)
 
-    dice = Dice:new(200, 200)
+    dice = Dice:new(652, 590)
 
     for i = 1, 95 do
         table.insert(blocks, Field:new(85 + ((i - 1) % 19) * 63, 190 + math.floor((i - 1) / 19) * 63))
