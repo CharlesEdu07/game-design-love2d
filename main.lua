@@ -58,11 +58,11 @@ function love.draw()
         block:draw()
     end
 
-    -- mecha1:draw()
-    -- mecha2:draw()
-    -- mecha3:draw()
-    -- mecha4:draw()
-    -- mecha5:draw()
+    mecha1:draw()
+    mecha2:draw()
+    mecha3:draw()
+    mecha4:draw()
+    mecha5:draw()
 
     dice:draw()
 end
