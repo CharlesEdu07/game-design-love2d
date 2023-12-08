@@ -60,6 +60,14 @@ function love.keypressed(key, scancode, isrepeat)
         print(dice_value1)
         print(dice_value2)
         print(dice_value3)
+
+        verify_dice_result(dice_value1, dice_value2, dice_value3)
+    end
+ end
+
+ function verify_dice_result(dice_value1, dice_value2, dice_value3)
+    if (dice_value1 == dice_value2 or dice_value1 == dice_value3 or dice_value2 == dice_value3) then
+        print("DO SOMETHING, STUPID")
     end
  end
 
