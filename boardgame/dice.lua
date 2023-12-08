@@ -23,22 +23,6 @@ function Dice:new(x, y)
 end
 
 function Dice:draw()
-    local pos = {love.mouse.getPosition()}
-
-    if self.rect.x <= pos[1] and pos[1] <= self.rect.x + self.rect.width and self.rect.y <= pos[2] and pos[2] <=
-        self.rect.y + self.rect.height then
-
-        if love.mouse.isDown(1) and not self.clicked then
-            self.clicked = true
-            self.action = true
-            return self.action
-        end
-    end
-
-    if not love.mouse.isDown(1) then
-        self.clicked = false
-    end
-
     local scale_factor = 0.13
 
     love.graphics.draw(self.image, self.rect.x, self.rect.y, 0, scale_factor, scale_factor)

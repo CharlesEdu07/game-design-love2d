@@ -30,11 +30,11 @@ function love.load()
     background = Background:new()
     blocks = {}
 
-    mecha1 = Mecha:new('sprite_5.png', 2, 85, 189)
-    mecha2 = Mecha:new('sprite_10.png', 3, 85, 252)
-    mecha3 = Mecha:new('sprite_8.png', 4, 85, 315)
-    mecha4 = Mecha:new('sprite_12.png', 5, 85, 378)
-    mecha5 = Mecha:new('sprite_10.png', 6, 85, 441)
+    mecha1 = Mecha:new('sprite_5.png', 2, 89, 195)
+    mecha2 = Mecha:new('sprite_10.png', 3, 89, 258)
+    mecha3 = Mecha:new('sprite_8.png', 4, 89, 321)
+    mecha4 = Mecha:new('sprite_12.png', 5, 89, 384)
+    mecha5 = Mecha:new('sprite_10.png', 6, 89, 447)
 
     dice = Dice:new(652, 590)
 
@@ -44,12 +44,24 @@ function love.load()
 end
 
 function love.update(dt)
-    if keyboard.isDown('space') then
-        dice:roll()
-    end
-
     dice:draw()
 end
+
+function love.keypressed(key, scancode, isrepeat)
+    if key == "escape" then
+       love.event.quit()
+    end
+
+    if key == "space" then
+        dice_value1 = dice:roll()
+        dice_value2 = dice:roll()
+        dice_value3 = dice:roll()
+
+        print(dice_value1)
+        print(dice_value2)
+        print(dice_value3)
+    end
+ end
 
 function love.draw()
     background:draw()
