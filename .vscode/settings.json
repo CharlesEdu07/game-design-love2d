@@ -1,5 +1,6 @@
 {
     "Lua.diagnostics.globals": [
-        "verify_dice_result"
+        "verify_dice_result",
+        "pass_turn"
     ]
 }

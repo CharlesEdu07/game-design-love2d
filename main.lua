@@ -27,6 +27,8 @@ function love.load()
     speed = 60
     border = 0
 
+    turn = 0
+
     background = Background:new()
     blocks = {}
 
@@ -53,6 +55,8 @@ function love.keypressed(key, scancode, isrepeat)
     end
 
     if key == "space" then
+        print("Turno antes da jogada: " .. turn)
+
         dice_value1 = dice:roll()
         dice_value2 = dice:roll()
         dice_value3 = dice:roll()
@@ -62,12 +66,24 @@ function love.keypressed(key, scancode, isrepeat)
         print(dice_value3)
 
         verify_dice_result(dice_value1, dice_value2, dice_value3)
+
+        pass_turn()
+
+        print("Turno depois da jogada: " .. turn)
     end
  end
 
  function verify_dice_result(dice_value1, dice_value2, dice_value3)
     if (dice_value1 == dice_value2 or dice_value1 == dice_value3 or dice_value2 == dice_value3) then
         print("DO SOMETHING, STUPID")
+    end
+ end
+
+ function pass_turn()
+    if (turn == 0) then
+        turn = 1
+    else
+        turn = 0
     end
  end
 
