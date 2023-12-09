@@ -73,7 +73,9 @@ function love.keypressed(key, scancode, isrepeat)
 end
 
 function verify_dice_result(dice_value1, dice_value2, dice_value3)
-    if (dice_value1 == dice_value2 or dice_value1 == dice_value3 or dice_value2 == dice_value3) then
+    if ((dice_value1 == dice_value2 or dice_value1 == dice_value3 or dice_value2 == dice_value3) and
+        not ((dice_value1 == 6 and dice_value2 == 6) or (dice_value1 == 6 and dice_value3 == 6) or
+            (dice_value2 == 6 and dice_value3 == 6))) then
         print("DO SOMETHING, STUPID")
     end
 end
