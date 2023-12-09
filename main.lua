@@ -51,7 +51,7 @@ end
 
 function love.keypressed(key, scancode, isrepeat)
     if key == "escape" then
-       love.event.quit()
+        love.event.quit()
     end
 
     if key == "space" then
@@ -71,21 +71,21 @@ function love.keypressed(key, scancode, isrepeat)
 
         print("Turno depois da jogada: " .. turn)
     end
- end
+end
 
- function verify_dice_result(dice_value1, dice_value2, dice_value3)
+function verify_dice_result(dice_value1, dice_value2, dice_value3)
     if (dice_value1 == dice_value2 or dice_value1 == dice_value3 or dice_value2 == dice_value3) then
         print("DO SOMETHING, STUPID")
     end
- end
+end
 
- function pass_turn()
+function pass_turn()
     if (turn == 0) then
         turn = 1
     else
         turn = 0
     end
- end
+end
 
 function love.draw()
     background:draw()
