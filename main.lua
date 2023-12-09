@@ -2,7 +2,6 @@ local love = require("love")
 local graphics = love.graphics
 local math = require("math")
 local keyboard = love.keyboard
-local mouse = love.mouse
 
 local Background = require("boardgame.background")
 local Mecha = require("boardgame.mecha")
