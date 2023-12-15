@@ -20,13 +20,13 @@ function love.load()
 
     love.graphics.setFont(love.graphics.newFont("fonts/Pixeled.ttf", 16))
 
-    White = {255, 255, 255}
+    White = { 255, 255, 255 }
 
     Fps = 60
     Speed = 60
     Border = 0
 
-    Can_Play = true
+    Can_Play = false
     Turn = 0
     Can_Move = false
     Can_Summon = false
@@ -36,6 +36,8 @@ function love.load()
 
     Deck1 = {}
     Deck2 = {}
+
+    Await = 3
 
     --mecha1 = Mecha:new('sprite_5.png', 2, 89, 195)
     --mecha2 = Mecha:new('sprite_10.png', 3, 89, 258)
@@ -51,15 +53,9 @@ function love.load()
 end
 
 function love.update(dt)
+    if (Can_Play) then
+        Can_Play = false
 
-end
-
-function love.keypressed(key, scancode, isrepeat)
-    if key == "escape" then
-        love.event.quit()
-    end
-
-    if (key == "space" and Can_Play) then
         print("Turno antes da jogada: " .. Turn)
 
         Dice_value1 = Dice:roll()
@@ -72,8 +68,6 @@ function love.keypressed(key, scancode, isrepeat)
 
         -- Realizar jogada
         if (Verify_Dice_Result(Dice_value1, Dice_value2, Dice_value3)) then
-            Can_Play = false
-
             Do_Something(Dice_value1, Dice_value2, Dice_value3)
         end
 
@@ -83,10 +77,20 @@ function love.keypressed(key, scancode, isrepeat)
     end
 end
 
+function love.keypressed(key, scancode, isrepeat)
+    if key == "escape" then
+        love.event.quit()
+    end
+
+    if (key == "space") then
+        Can_Play = true
+    end
+end
+
 function Verify_Dice_Result(dice_value1, dice_value2, dice_value3)
     if ((dice_value1 == dice_value2 or dice_value1 == dice_value3 or dice_value2 == dice_value3) and
-        not ((dice_value1 == 6 and dice_value2 == 6) or (dice_value1 == 6 and dice_value3 == 6) or
-            (dice_value2 == 6 and dice_value3 == 6))) then
+            not ((dice_value1 == 6 and dice_value2 == 6) or (dice_value1 == 6 and dice_value3 == 6) or
+                (dice_value2 == 6 and dice_value3 == 6))) then
         print("DO SOMETHING, STUPID")
 
         return true
