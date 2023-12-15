@@ -1,3 +1,6 @@
+local love = require("love")
+local graphics = love.graphics
+
 Mecha = {}
 
 function Mecha:new(sprite_name, lv, x, y)

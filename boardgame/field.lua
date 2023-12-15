@@ -1,3 +1,6 @@
+local love = require("love")
+local graphics = love.graphics
+
 Field = {}
 
 function Field:new(x, y)

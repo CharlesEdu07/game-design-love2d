@@ -1,3 +1,6 @@
+local love = require("love")
+local graphics = love.graphics
+
 Dice = {}
 
 function Dice:new(x, y)
