@@ -21,6 +21,7 @@ function love.load()
     love.graphics.setFont(love.graphics.newFont("fonts/Pixeled.ttf", 16))
 
     White = {255, 255, 255}
+    Red = {255, 0, 0}
 
     Fps = 60
     Speed = 60
@@ -28,16 +29,18 @@ function love.load()
 
     Can_Play = false
     Turn = 0
+
+    Choose_Row = false
     Can_Move = false
     Can_Summon = false
+
+    Row_Value = 0
 
     Background = Background:new()
     Blocks = {}
 
     Deck1 = {}
     Deck2 = {}
-
-    Await = 3
 
     -- mecha1 = Mecha:new('sprite_5.png', 2, 89, 195)
     -- mecha2 = Mecha:new('sprite_10.png', 3, 89, 258)
@@ -53,22 +56,26 @@ function love.load()
 end
 
 function love.update(dt)
+    love.timer.sleep(1 / Fps)
+
     if (Can_Play) then
         Can_Play = false
 
         print("Turno antes da jogada: " .. Turn)
 
-        Dice_value1 = Dice:roll()
-        Dice_value2 = Dice:roll()
-        Dice_value3 = Dice:roll()
+        Dice_Value1 = Dice:roll()
+        Dice_Value2 = Dice:roll()
+        Dice_Value3 = Dice:roll()
 
-        print(Dice_value1)
-        print(Dice_value2)
-        print(Dice_value3)
+        print(Dice_Value1)
+        print(Dice_Value2)
+        print(Dice_Value3)
 
-        -- Realizar jogada
-        if (Verify_Dice_Result(Dice_value1, Dice_value2, Dice_value3)) then
-            Do_Something(Dice_value1, Dice_value2, Dice_value3)
+        Level_Value = Verify_Dice_Result(Dice_Value1, Dice_Value2, Dice_Value3)
+
+        if Level_Value ~= 0 then
+
+            Do_Something(Level_Value)
         end
 
         Pass_Turn()
@@ -77,13 +84,48 @@ function love.update(dt)
     end
 end
 
-function love.keypressed(key, scancode, isrepeat)
-    if key == "escape" then
-        love.event.quit()
-    end
+function Do_Something(Level_Value)
+    if (Turn == 0 and #Deck1 == 0) then
+        print("Level_Value: " .. Level_Value)
 
-    if (key == "space") then
-        Can_Play = true
+        Choose_Row = true
+
+        -- Receber input do jogador em qual linha ele quer colocar o mecha
+
+        -- if (Level_Value == 1) then
+        --     print("Level 1")
+        --     print("Mecha 1")
+
+        --     table.insert(Deck1, Mecha:new('sprite_5.png', 2, 89, 195))
+        -- end
+
+        -- if (Level_Value == 2) then
+        --     print("Level 2")
+        --     print("Mecha 2")
+
+        --     table.insert(Deck1, Mecha:new('sprite_10.png', 3, 89, 258))
+        -- end
+
+        -- if (Level_Value == 3) then
+        --     print("Level 3")
+        --     print("Mecha 3")
+
+        --     table.insert(Deck1, Mecha:new('sprite_8.png', 4, 89, 321))
+        -- end
+
+        -- if (Level_Value == 4) then
+        --     print("Level 4")
+        --     print("Mecha 4")
+
+        --     table.insert(Deck1, Mecha:new('sprite_12.png', 5, 89, 384))
+        -- end
+
+        -- if (Level_Value == 5) then
+        --     print("Level 5")
+        --     print("Mecha 5")
+
+        --     table.insert(Deck1, Mecha:new('sprite_10.png', 6, 89, 447))
+        -- end
     end
 end
 
@@ -122,13 +164,6 @@ function Is_Equal(value1, value2)
     return false
 end
 
-function Do_Something(dice_value1, dice_value2, dice_value3)
-    -- Verificar se já tem robos em campo
-    -- Se sim pode mover ou pode summon
-    -- Se não pode apenas summon
-
-end
-
 function Pass_Turn()
     if (Turn == 0) then
         Turn = 1
@@ -137,8 +172,34 @@ function Pass_Turn()
     end
 end
 
+function love.keypressed(key, scancode, isrepeat)
+    if key == "escape" then
+        love.event.quit()
+    end
+
+    if (key == "space") then
+        Can_Play = true
+    end
+end
+
+function love.textinput(t)
+    input = t
+end
+
 function love.draw()
     Background:draw()
+
+    love.graphics.print({Red, "Tecle SPACE para rolar os dados"}, 472, 540)
+
+    if Choose_Row then
+        love.graphics.print({Red, "Tecle 1, 2, 3, 4 ou 5 para escolher a linha"}, 472, 560)
+
+        if input == "1" then
+            Row_Value = 1
+
+            Choose_Row = false
+        end
+    end
 
     for _, Block in ipairs(Blocks) do
         Block:draw()
