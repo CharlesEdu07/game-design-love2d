@@ -20,7 +20,7 @@ function love.load()
 
     love.graphics.setFont(love.graphics.newFont("fonts/Pixeled.ttf", 16))
 
-    White = { 255, 255, 255 }
+    White = {255, 255, 255}
 
     Fps = 60
     Speed = 60
@@ -39,10 +39,10 @@ function love.load()
 
     Await = 3
 
-    --mecha1 = Mecha:new('sprite_5.png', 2, 89, 195)
-    --mecha2 = Mecha:new('sprite_10.png', 3, 89, 258)
-    --mecha3 = Mecha:new('sprite_8.png', 4, 89, 321)
-    --mecha4 = Mecha:new('sprite_12.png', 5, 89, 384)
+    -- mecha1 = Mecha:new('sprite_5.png', 2, 89, 195)
+    -- mecha2 = Mecha:new('sprite_10.png', 3, 89, 258)
+    -- mecha3 = Mecha:new('sprite_8.png', 4, 89, 321)
+    -- mecha4 = Mecha:new('sprite_12.png', 5, 89, 384)
     Mecha5 = Mecha:new('sprite_10.png', 6, 89, 447)
 
     Dice = Dice:new(652, 590)
@@ -88,11 +88,34 @@ function love.keypressed(key, scancode, isrepeat)
 end
 
 function Verify_Dice_Result(dice_value1, dice_value2, dice_value3)
-    if ((dice_value1 == dice_value2 or dice_value1 == dice_value3 or dice_value2 == dice_value3) and
-            not ((dice_value1 == 6 and dice_value2 == 6) or (dice_value1 == 6 and dice_value3 == 6) or
-                (dice_value2 == 6 and dice_value3 == 6))) then
-        print("DO SOMETHING, STUPID")
+    if ((Is_Equal(dice_value1, dice_value2) or Is_Equal(dice_valuel, dice_value3) or Is_Equal(dice_value2, dice_value3)) and
+        not ((dice_value1 == 6 and dice_value2 == 6) or (dice_value1 == 6 and dice_value3 == 6) or
+            (dice_value2 == 6 and dice_value3 == 6))) then
 
+        if Is_Equal(dice_value1, dice_value2) then
+            print("1 e 2 iguais: " .. dice_value1, dice_value2)
+
+            return dice_value1
+        end
+
+        if Is_Equal(dice_value1, dice_value3) then
+            print("1 e 3 iguais: " .. dice_value1, dice_value3)
+
+            return dice_value1
+        end
+
+        if Is_Equal(dice_value2, dice_value3) then
+            print("2 e 3 iguais: " .. dice_value2, dice_value3)
+
+            return dice_value2
+        end
+    end
+
+    return 0
+end
+
+function Is_Equal(value1, value2)
+    if (value1 == value2) then
         return true
     end
 
@@ -103,6 +126,7 @@ function Do_Something(dice_value1, dice_value2, dice_value3)
     -- Verificar se já tem robos em campo
     -- Se sim pode mover ou pode summon
     -- Se não pode apenas summon
+
 end
 
 function Pass_Turn()
@@ -116,14 +140,14 @@ end
 function love.draw()
     Background:draw()
 
-    for _, block in ipairs(Blocks) do
-        block:draw()
+    for _, Block in ipairs(Blocks) do
+        Block:draw()
     end
 
-    --mecha1:draw()
-    --mecha2:draw()
-    --mecha3:draw()
-    --mecha4:draw()
+    -- mecha1:draw()
+    -- mecha2:draw()
+    -- mecha3:draw()
+    -- mecha4:draw()
     Mecha5:draw()
 
     Dice:draw()
