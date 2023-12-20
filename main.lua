@@ -36,19 +36,25 @@ function love.load()
     -- Border = 0
 
     Can_Play = false
-    Turn = 0
-
     Choose_Row = false
     Can_Move = false
     Can_Summon = false
+    isTurnComplete = false
+    Dice_Phase = false
+    Draw_Mecha = false
 
     Row_Value = 0
+    userInput = 0
+    Turn = 0
 
     Background = Background:new()
     Blocks = {}
 
     Deck1 = {}
     Deck2 = {}
+    Visible_Mechas = {}
+    Dice_Values = {}
+
 
     Player_1_Summon_Positions = { 195, 258, 321, 384, 447 }
 
@@ -68,39 +74,68 @@ end
 function love.update(dt)
     love.timer.sleep(1 / MAX_FPS)
 
+    --Can_Play = false
+    --Choose_Row = false
+    --Can_Move = false
+    --Can_Summon = false
+    --isTurnComplete = false
+    --Dice_Phase = false
     if (Can_Play) then
-        Can_Play = false
-
-        -- print("Turno antes da jogada: " .. Turn)
-        Dice_Values = {}
-        for i = 0, 2 do
-            Dice_Values[i] = Dice:roll()
+        if Dice_Phase then
+            print("Dice_Phase")
+            for i = 0, 2 do
+                Dice_Values[i] = Dice:roll()
+            end
+            Level_Value = Verify_Dice_Result(Dice_Values[0], Dice_Values[1], Dice_Values[2])
+            Dice_Phase = false
+            Can_Summon = true
+            print("Level_Value: " .. Level_Value)
         end
 
-        -- print(Dice_Values[0])
-        -- print(Dice_Values[1])
-        -- print(Dice_Values[2])
-
-        Level_Value = Verify_Dice_Result(Dice_Values[0], Dice_Values[1], Dice_Values[2])
-
-        if Level_Value ~= 0 then
-            Summon_Robot(Level_Value)
-            Level_Value = 0
+        if Level_Value ~= 0 and Can_Summon then
+            print("Waiting Summon Line Input")
+            if userInput ~= nil and userInput > 0 and userInput < 6 then
+                print("Summon_Phase")
+                Summon_Robot(Level_Value, userInput)
+                userInput = 0
+                Level_Value = 0
+                isTurnComplete = true
+                Can_Summon = false
+            end
         end
 
-        Pass_Turn()
-
-        print("Turno depois da jogada: " .. Turn)
+        if isTurnComplete then
+            print("End_Phase")
+            Pass_Turn()
+            print("Turno depois da jogada: " .. Turn)
+            Can_Play = false
+            isTurnComplete = false
+        end
     end
+    --if not Can_Play then
+    --    print(dt)
+    --end
 end
 
-function Summon_Robot(Level_Value)
-    if (Turn == 0 and #Deck1 == 0) then
-        print("Level_Value: " .. Level_Value)
-
+function Summon_Robot(Level_Value, line)
+    if (#Deck1 == 0) then
+    --if (Turn == 0 and #Deck1 == 0) then
         Choose_Row = true
-        line = 1
-        mecha = Choose_Robot(Level_Value, line)
+
+        --Line_Chose = false
+        --while not Line_Chose do
+        --    if userInput ~= nil and userInput > 0 and userInput < 6 then
+        --        Line_Chose = true
+        --    else
+        --        Line_Chose = false
+        --    end
+        --end
+        --line = userInput
+
+        Choose_Robot(Level_Value, line)
+        if Draw_Mecha == false then
+            Draw_Mecha = true
+        end
 
         -- Receber input do jogador em qual linha ele quer colocar o mecha
 
@@ -143,27 +178,29 @@ end
 
 function Choose_Robot(Level_Value, line)
     Summon_Position = Player_1_Summon_Positions[line]
-    -- table.insert(Deck1, Mecha:new('sprite_' .. Level_Value .. '.png', 2, 89, Summon_Position))
-    return Mecha:new('sprite_' .. Level_Value .. '.png', Level_Value, 89, Summon_Position)
+    table.insert(Visible_Mechas, Mecha:new('sprite_' .. Level_Value .. '.png', Level_Value, 89, Summon_Position))
 end
 
 function Verify_Dice_Result(dice_value1, dice_value2, dice_value3)
     -- Verify if two dices are equal and different from six
     -- return dice_value if a pair exists, return zero if not.
+    print("Dado: " .. dice_value1)
+    print("Dado: " .. dice_value2)
+    print("Dado: " .. dice_value3)
     if (Are_Two_Dices_Equal(dice_value1, dice_value2, dice_value3) and
             not Are_Two_Dices_Equal_Six(dice_value1, dice_value2, dice_value3)) then
         if Is_Equal(dice_value1, dice_value2) then
-            -- print("1 e 2 iguais: " .. dice_value1, dice_value2)
+            print("Dado 1 e 2 iguais: " .. dice_value1, dice_value2)
             return dice_value1
         end
 
         if Is_Equal(dice_value1, dice_value3) then
-            -- print("1 e 3 iguais: " .. dice_value1, dice_value3)
+            print("Dado 1 e 3 iguais: " .. dice_value1, dice_value3)
             return dice_value1
         end
 
         if Is_Equal(dice_value2, dice_value3) then
-            -- print("2 e 3 iguais: " .. dice_value2, dice_value3)
+            print("Dado 2 e 3 iguais: " .. dice_value2, dice_value3)
             return dice_value2
         end
     end
@@ -218,17 +255,49 @@ function love.keypressed(key, scancode, isrepeat)
 
     if (key == "space") then
         Can_Play = true
+        Dice_Phase = true
+        print("Can_Play")
+    end
+
+    if (key == "1") then
+        userInput = tonumber(key)
+        print("userInput -> " .. key)
+    end
+    if (key == "2") then
+        userInput = tonumber(key)
+        print("userInput -> " .. key)
+    end
+    if (key == "3") then
+        userInput = tonumber(key)
+        print("userInput -> " .. key)
+    end
+    if (key == "4") then
+        userInput = tonumber(key)
+        print("userInput -> " .. key)
+    end
+    if (key == "5") then
+        userInput = tonumber(key)
+        print("userInput -> " .. key)
     end
 end
 
-function love.textinput(t)
-    input = t
-end
+--function love.textinput(t)
+--    input = t
+--end
 
 function love.draw()
+    --Can_Play = false
+    --Choose_Row = false
+    --Can_Move = false
+    --Can_Summon = false
+    --isTurnComplete = false
+    --Dice_Phase = false
+
     Background:draw()
 
-    love.graphics.print({ Red, "Tecle SPACE para rolar os dados" }, 472, 540)
+    if Can_Play then
+        love.graphics.print({ Red, "Tecle SPACE para rolar os dados" }, 472, 540)
+    end
 
     for _, Block in ipairs(Blocks) do
         Block:draw()
@@ -241,11 +310,13 @@ function love.draw()
         -- end
         --mecha = Choose_Robot(Level_Value, line)
         Choose_Row = false
-        Draw_Mecha = true
     end
 
     if Draw_Mecha then
-        mecha:draw()
+        for i = 1, #Visible_Mechas do
+            Visible_Mechas[i]:draw()
+        end
+        --mecha:draw()
     end
 
     -- mecha1:draw()
