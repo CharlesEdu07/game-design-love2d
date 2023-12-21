@@ -9,23 +9,26 @@ local Dice = require("boardgame.dice")
 local Field = require("boardgame.field")
 
 function love.load()
-    -- Get screen size of the current computer.
-    love.window.setMode(0, 0, {
-        resizable = false
-    })
+    --Get screen size of the current computer.
+    --love.window.setMode(0, 0, {
+    --  resizable = false
+    --})
+
     Screen_Height = love.graphics.getHeight()
     Screen_Width = love.graphics.getWidth()
     -- Scale = math.ceil(Screen_Width / 1000)
 
     -- Set game screen
-    Height = Screen_Height -- 720
-    Width = Screen_Width   -- 1368
+    Height = 720 -- 720
+    Width = 1368   -- 1368
+
     love.window.setMode(Width, Height, {
         resizable = false
     })
 
     -- Set title, font and colors
     love.window.setTitle('Robot Dice Wars')
+
     love.graphics.setFont(love.graphics.newFont("fonts/Pixeled.ttf", 16))
     -- White = { 255, 255, 255 }
     Red = { 255, 0, 0 }
@@ -55,7 +58,6 @@ function love.load()
     Visible_Mechas = {}
     Dice_Values = {}
 
-
     Player_1_Summon_Positions = { 195, 258, 321, 384, 447 }
 
     -- mecha1 = Mecha:new('sprite_5.png', 2, 89, 195)
@@ -83,22 +85,30 @@ function love.update(dt)
     if (Can_Play) then
         if Dice_Phase then
             print("Dice_Phase")
+
             for i = 0, 2 do
                 Dice_Values[i] = Dice:roll()
             end
+
             Level_Value = Verify_Dice_Result(Dice_Values[0], Dice_Values[1], Dice_Values[2])
+
             Dice_Phase = false
             Can_Summon = true
+
             print("Level_Value: " .. Level_Value)
         end
 
         if Level_Value ~= 0 and Can_Summon then
             print("Waiting Summon Line Input")
+
             if userInput ~= nil and userInput > 0 and userInput < 6 then
                 print("Summon_Phase")
+
                 Summon_Robot(Level_Value, userInput)
+
                 userInput = 0
                 Level_Value = 0
+
                 isTurnComplete = true
                 Can_Summon = false
             end
@@ -106,8 +116,11 @@ function love.update(dt)
 
         if isTurnComplete then
             print("End_Phase")
+
             Pass_Turn()
+
             print("Turno depois da jogada: " .. Turn)
+
             Can_Play = false
             isTurnComplete = false
         end
@@ -133,6 +146,7 @@ function Summon_Robot(Level_Value, line)
         --line = userInput
 
         Choose_Robot(Level_Value, line)
+        
         if Draw_Mecha == false then
             Draw_Mecha = true
         end
@@ -178,6 +192,7 @@ end
 
 function Choose_Robot(Level_Value, line)
     Summon_Position = Player_1_Summon_Positions[line]
+
     table.insert(Visible_Mechas, Mecha:new('sprite_' .. Level_Value .. '.png', Level_Value, 89, Summon_Position))
 end
 
@@ -187,20 +202,24 @@ function Verify_Dice_Result(dice_value1, dice_value2, dice_value3)
     print("Dado: " .. dice_value1)
     print("Dado: " .. dice_value2)
     print("Dado: " .. dice_value3)
+
     if (Are_Two_Dices_Equal(dice_value1, dice_value2, dice_value3) and
             not Are_Two_Dices_Equal_Six(dice_value1, dice_value2, dice_value3)) then
         if Is_Equal(dice_value1, dice_value2) then
             print("Dado 1 e 2 iguais: " .. dice_value1, dice_value2)
+
             return dice_value1
         end
 
         if Is_Equal(dice_value1, dice_value3) then
             print("Dado 1 e 3 iguais: " .. dice_value1, dice_value3)
+
             return dice_value1
         end
 
         if Is_Equal(dice_value2, dice_value3) then
             print("Dado 2 e 3 iguais: " .. dice_value2, dice_value3)
+
             return dice_value2
         end
     end
@@ -256,34 +275,36 @@ function love.keypressed(key, scancode, isrepeat)
     if (key == "space") then
         Can_Play = true
         Dice_Phase = true
+
         print("Can_Play")
     end
 
     if (key == "1") then
         userInput = tonumber(key)
+
         print("userInput -> " .. key)
     end
     if (key == "2") then
         userInput = tonumber(key)
+
         print("userInput -> " .. key)
     end
     if (key == "3") then
         userInput = tonumber(key)
+
         print("userInput -> " .. key)
     end
     if (key == "4") then
         userInput = tonumber(key)
+
         print("userInput -> " .. key)
     end
     if (key == "5") then
         userInput = tonumber(key)
+
         print("userInput -> " .. key)
     end
 end
-
---function love.textinput(t)
---    input = t
---end
 
 function love.draw()
     --Can_Play = false
@@ -296,7 +317,7 @@ function love.draw()
     Background:draw()
 
     if Can_Play then
-        love.graphics.print({ Red, "Tecle SPACE para rolar os dados" }, 472, 540)
+        love.graphics.print({ White, "Tecle SPACE para rolar os dados" }, 472, 540)
     end
 
     for _, Block in ipairs(Blocks) do
@@ -304,7 +325,7 @@ function love.draw()
     end
 
     if Choose_Row then
-        love.graphics.print({ Red, "Tecle 1, 2, 3, 4 ou 5 para escolher a linha" }, 472, 560)
+        love.graphics.print({ White, "Tecle 1, 2, 3, 4 ou 5 para escolher a linha" }, 472, 560)
         -- if input ~= "space" then
         --    line = tonumber(input)
         -- end
