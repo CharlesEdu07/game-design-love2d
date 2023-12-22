@@ -30,7 +30,7 @@ function love.load()
     love.window.setTitle('Robot Dice Wars')
 
     love.graphics.setFont(love.graphics.newFont("fonts/Pixeled.ttf", 16))
-    -- White = { 255, 255, 255 }
+    White = { 255, 255, 255 }
     Red = { 255, 0, 0 }
 
     -- Set max fps value
